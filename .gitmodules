@@ -1,0 +1,3 @@
+[submodule "ego"]
+	path = subprojects/ego
+	url = https://github.com/DyXel/ego
