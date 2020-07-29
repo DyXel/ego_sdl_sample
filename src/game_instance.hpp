@@ -27,7 +27,7 @@ private:
 	unsigned now, then;
 	float elapsed{};
 	
-	float rotation{0u};
+	float rotation{};
 	Ego::SRenderer renderer;
 	Ego::SScene scene;
 	std::array<Ego::IMesh*, 8> alphaMeshes{};
