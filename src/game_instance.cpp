@@ -86,6 +86,21 @@ GameInstance::GameInstance() :
 		SDL_DestroyWindow(sdlWindow);
 		throw std::runtime_error(errStr);
 	}
+	{
+		using GLGetStringType = unsigned const char*(*)(unsigned int);
+		constexpr unsigned int GL_VENDOR = 0x1F00;
+		constexpr unsigned int GL_RENDERER = 0x1F01;
+		constexpr unsigned int GL_VERSION = 0x1F02;
+		constexpr unsigned int GL_SHADING_LANGUAGE_VERSION = 0x8B8C;
+		constexpr const char* FORMAT_STR = "OpenGL: %s (0x%X): %s";
+		auto glGetString = reinterpret_cast<GLGetStringType>(SDL_GL_GetProcAddress("glGetString"));
+#define SDL_LOG_GL(name) SDL_Log(FORMAT_STR, #name, name, glGetString(name))
+		SDL_LOG_GL(GL_VENDOR);
+		SDL_LOG_GL(GL_RENDERER);
+		SDL_LOG_GL(GL_VERSION);
+		SDL_LOG_GL(GL_SHADING_LANGUAGE_VERSION);
+#undef SDL_LOG_GL
+	}
 	// Enable vsync
 	SDL_GL_SetSwapInterval(1);
 	// Create Ego Renderer
@@ -140,7 +155,7 @@ GameInstance::GameInstance() :
 		solidMesh = mesh.get();
 	}
 	
-	// Set window title before showing window
+	// Correct delta time
 	now = then = static_cast<unsigned>(SDL_GetTicks());
 }
 
